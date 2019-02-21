@@ -21,6 +21,8 @@
  */
 
 #include "nss-sqlite.h"
+#include "groups.h"
+#include "utils.h"
 
 #include <errno.h>
 #include <grp.h>
@@ -142,7 +144,7 @@ enum nss_status fill_group(struct sqlite3 *pDb, struct group *gbuf, char* buf, s
     return res;
 }
 
-inline void fill_group_sql(struct group* entry, struct sqlite3_stmt* pSquery) {
+void fill_group_sql(struct group* entry, struct sqlite3_stmt* pSquery) {
     entry->gr_gid = sqlite3_column_int(pSquery, 0);
     entry->gr_name = sqlite3_column_text(pSquery, 1);
     entry->gr_passwd = sqlite3_column_text(pSquery, 2);
@@ -202,7 +204,7 @@ enum nss_status fill_passwd(struct passwd* pwbuf, char* buf, size_t buflen, stru
     return NSS_STATUS_SUCCESS;
 }
 
-inline void fill_passwd_sql(struct passwd* entry, struct sqlite3_stmt* pSquery) {
+void fill_passwd_sql(struct passwd* entry, struct sqlite3_stmt* pSquery) {
     entry->pw_name = sqlite3_column_text(pSquery, 0);
     entry->pw_passwd = sqlite3_column_text(pSquery, 1);
     entry->pw_uid = sqlite3_column_int(pSquery, 2);
@@ -259,7 +261,7 @@ enum nss_status fill_shadow(struct spwd *spbuf, char* buf, size_t buflen, struct
     return NSS_STATUS_SUCCESS;
 }
 
-inline void fill_shadow_sql(struct spwd* entry, struct sqlite3_stmt* pSquery) {
+void fill_shadow_sql(struct spwd* entry, struct sqlite3_stmt* pSquery) {
     entry->sp_namp = sqlite3_column_text(pSquery, 0);
     entry->sp_pwdp = sqlite3_column_text(pSquery, 1);
     entry->sp_lstchg = sqlite3_column_int(pSquery, 2);

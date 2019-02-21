@@ -1,5 +1,4 @@
 /*
- * Copyright (C) 2007, Sébastien Le Ray
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,26 +14,14 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
-#ifndef NSS_SQLITE_UTILS_H
-#define NSS_SQLITE_UTILS_H
+#ifndef NSS_SQLITE_GROUPS_H
+#define NSS_SQLITE_GROUPS_H
 
 #include <sqlite3.h>
-#include <grp.h>
-#include <pwd.h>
-#include <shadow.h>
+#include <sys/types.h>
+#include <stddef.h>
 
-char *get_query(struct sqlite3*, char*);
-
-enum nss_status fill_passwd(struct passwd*, char*, size_t, struct passwd, int*);
-void fill_passwd_sql(struct passwd*, struct sqlite3_stmt*);
-
-enum nss_status fill_shadow(struct spwd*, char*, size_t, struct spwd, int*);
-void fill_shadow_sql(struct spwd*, struct sqlite3_stmt*);
-
-enum nss_status fill_group(struct sqlite3 *, struct group *, char*, size_t, struct group, int *);
-void fill_group_sql(struct group*, struct sqlite3_stmt*);
-
-enum nss_status res2nss_status(int res, struct sqlite3* pDb, struct sqlite3_stmt* pSt);
+enum nss_status get_users(sqlite3* pDb, gid_t gid, char* buffer, size_t buflen, int* errnop);
 
 #endif
+
