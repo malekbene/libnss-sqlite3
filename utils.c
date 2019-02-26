@@ -58,9 +58,9 @@ char *get_query(struct sqlite3* pDb, char *getent_function) {
     }
 
     res = res2nss_status(sqlite3_step(pSsql), pDb, pSsql);
+
     if(res != NSS_STATUS_SUCCESS) {
-        sqlite3_finalize(pSsql);
-        sqlite3_close(pDb);
+        /* res2nss_status has already done the cleanup */
         return NULL;
     }
 
